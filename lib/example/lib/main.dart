@@ -16,6 +16,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-        title: 'Animated Responsive Intro Page', home: IntroPage());
+      title: 'Animated Responsive Intro Page',
+      home: IntroPage(),
+    );
   }
 }
