@@ -12,9 +12,13 @@ dependencies:
     sdk: flutter
 
   # UI
-  animated_responsive_intro_page:
-    path: ../
+  animated_responsive_intro_page: ^0.0.1
   cupertino_icons: ^1.0.6
+
+  # Service
+  riverpod: ^2.5.1
+  flutter_riverpod: ^2.5.1
+  hooks_riverpod: ^2.5.1
 
 dev_dependencies:
   flutter_test:

@@ -1,9 +1,7 @@
 name: animated_responsive_intro_page
-description: "A new Flutter package project."
+description: Animated responsive intro page.
 version: 0.0.1
-authors:
-  -Ali Birkan Bayram - DOTS Yazılım
-  -alibirkan9813@gmail.com
+authors: ["alibirkan9813@gmail.com"]
 homepage: https://github.com/alibirkanbayram/animated_responsive_intro_page.git
 
 environment:
@@ -29,9 +27,8 @@ dev_dependencies:
   flutter_lints: ^3.0.0
 
 flutter:
-
-  # assets:
-  #   - images/a_dot_burr.jpeg
+  assets:
+    - assets/images/
 
   # fonts:
   #   - family: Schyler

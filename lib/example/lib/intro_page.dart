@@ -19,17 +19,17 @@ class IntroPage extends StatelessWidget {
             title: 'Welcome to the App',
             description:
                 'This is a simple app that shows how to create an animated responsive intro page in Flutter.',
-            imageRoute: 'assets/images/welcome.png',
+            imageRoute: 'assets/images/intropage1.png',
           ),
           IntroPageModel(
             title: 'Responsive Design',
             description: 'The app is responsive and works on all screen sizes.',
-            imageRoute: 'assets/images/responsive.png',
+            imageRoute: 'assets/images/intropage2.png',
           ),
           IntroPageModel(
             title: 'Animated Intro Page',
             description: 'The intro page is animated and looks great.',
-            imageRoute: 'assets/images/animated.png',
+            imageRoute: 'assets/images/intropage3.png',
           ),
         ],
         routeHomePage: const HomePage(),

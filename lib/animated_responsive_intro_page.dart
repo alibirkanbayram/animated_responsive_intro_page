@@ -59,163 +59,172 @@ class AnimatedResponsiveIntroPage extends StatelessWidget {
           pageLength: introPageModelData.length,
           pageController: pageController,
         );
-        return Column(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            for (int i = 0; i < 3; i++)
-              i == 1
-                  // SmoothPageIndicator
-                  ? Padding(
-                      padding: EdgeInsets.symmetric(
-                        vertical: height * (generalPadding ?? 0.02),
-                      ),
-                      child: SmoothPageIndicator(
-                        controller: pageController,
-                        count: introPageModelData.length,
-                        effect: const WormEffect(),
-                        onDotClicked: (index) {
-                          introPageController.updatePageIndex(index);
-                        },
-                      ),
-                    )
-                  // Image and Text
-                  : Expanded(
-                      flex: 5,
-                      child: i == 0
-                          // Image
-                          ? Stack(
-                              children: [
-                                Consumer(
-                                  builder: (context, ref, child) {
-                                    ref.watch(introPageIndex);
-                                    return PageView(
-                                      controller: pageController,
-                                      onPageChanged: (index) {
-                                        introPageController
-                                            .updatePageIndex(index);
-                                      },
-                                      children: [
-                                        for (int j = 0;
-                                            j < introPageModelData.length;
-                                            j++)
-                                          Image.asset(
-                                            introPageModelData[j].imageRoute,
-                                            color: Theme.of(context)
-                                                .textTheme
-                                                .displaySmall!
-                                                .color,
+        return SizedBox(
+          height: height,
+          width: width,
+          child: Column(
+            children: [
+              for (int i = 0; i < 3; i++)
+                i == 1
+                    // SmoothPageIndicator
+                    ? Padding(
+                        padding: EdgeInsets.symmetric(
+                          vertical: height * generalPadding,
+                        ),
+                        child: SmoothPageIndicator(
+                          controller: pageController,
+                          count: introPageModelData.length,
+                          effect: const WormEffect(),
+                          onDotClicked: (index) {
+                            introPageController.updatePageIndex(index);
+                          },
+                        ),
+                      )
+                    // Image and Text
+                    : Expanded(
+                        flex: 5,
+                        child: i == 0
+                            // Image and Skip Button
+                            ? Stack(
+                                children: [
+                                  Consumer(
+                                    builder: (context, ref, child) {
+                                      ref.watch(introPageIndex);
+                                      return PageView(
+                                        controller: pageController,
+                                        onPageChanged: (index) {
+                                          introPageController
+                                              .updatePageIndex(index);
+                                        },
+                                        children: [
+                                          for (int j = 0;
+                                              j < introPageModelData.length;
+                                              j++)
+                                            Image.asset(
+                                              introPageModelData[j].imageRoute,
+                                              color: Theme.of(context)
+                                                  .textTheme
+                                                  .displaySmall!
+                                                  .color,
+                                            )
+                                        ],
+                                      );
+                                    },
+                                  ),
+                                  Positioned(
+                                    top: height * generalPadding,
+                                    right: width * generalPadding,
+                                    child: i < introPageModelData.length - 1
+                                        ? TextButton(
+                                            onPressed: () {
+                                              introPageController
+                                                  .skipLastPage();
+                                            },
+                                            child: Text(
+                                              skipButtonText,
+                                              style: themeData == null
+                                                  ? TextStyle(
+                                                      fontSize: 20,
+                                                      color: textColor,
+                                                    )
+                                                  : themeData!
+                                                      .textTheme.bodyMedium,
+                                            ),
                                           )
-                                      ],
+                                        : const SizedBox(),
+                                  ),
+                                ],
+                              )
+                            // Container and Text
+                            : Padding(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: width * generalPadding,
+                                  vertical: height * generalPadding,
+                                ),
+                                child: Consumer(
+                                  builder: (context, ref, child) {
+                                    int index = ref.watch(introPageIndex);
+                                    return Container(
+                                      decoration: BoxDecoration(
+                                        color: containerColor,
+                                        borderRadius: BorderRadius.circular(
+                                          height * generalPadding,
+                                        ),
+                                      ),
+                                      child: Padding(
+                                        padding: EdgeInsets.symmetric(
+                                          horizontal:
+                                              width * generalPadding * 2,
+                                        ),
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.max,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                          children: [
+                                            for (int j = 0; j < 2; j++)
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                  top: j == 0
+                                                      ? height * generalPadding
+                                                      : 0,
+                                                ),
+                                                child: Text(
+                                                  j == 0
+                                                      ? introPageModelData[
+                                                              index]
+                                                          .title
+                                                      : introPageModelData[
+                                                              index]
+                                                          .description,
+                                                  style: j == 0
+                                                      ? Theme.of(context)
+                                                          .textTheme
+                                                          .displayLarge
+                                                      : Theme.of(context)
+                                                          .textTheme
+                                                          .bodyMedium,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  maxLines: j == 0 ? 2 : 3,
+                                                  textAlign: TextAlign.center,
+                                                ),
+                                              ),
+                                            index ==
+                                                    introPageModelData.length -
+                                                        1
+                                                ? GeneralButtonWidget(
+                                                    height: height,
+                                                    onPressed: () {
+                                                      isPushNamed
+                                                          ? Navigator.pushNamed(
+                                                              context,
+                                                              routeHomePageRoute!,
+                                                            )
+                                                          : Navigator.push(
+                                                              context,
+                                                              MaterialPageRoute(
+                                                                builder:
+                                                                    (context) =>
+                                                                        routeHomePage!,
+                                                              ),
+                                                            );
+                                                    },
+                                                    text: getStartedButtonText,
+                                                    generalPadding:
+                                                        generalPadding,
+                                                    color: buttonColor,
+                                                  )
+                                                : const SizedBox(),
+                                          ],
+                                        ),
+                                      ),
                                     );
                                   },
                                 ),
-                                Positioned(
-                                  top: height * (generalPadding ?? 0.02),
-                                  right: width * (generalPadding ?? 0.02),
-                                  child: TextButton(
-                                    onPressed: () {
-                                      introPageController.skipLastPage();
-                                    },
-                                    child: Text(
-                                      skipButtonText ?? "Skip",
-                                      style: themeData == null
-                                          ? TextStyle(
-                                              fontSize: 20,
-                                              color: textColor ?? Colors.black,
-                                            )
-                                          : themeData!.textTheme.bodyMedium,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            )
-                          // Text
-                          : Padding(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: width * (generalPadding ?? 0.02),
-                                vertical: height * (generalPadding ?? 0.02),
                               ),
-                              child: Consumer(
-                                builder: (context, ref, child) {
-                                  int index = ref.watch(introPageIndex);
-                                  return Container(
-                                    decoration: BoxDecoration(
-                                      color: containerColor ?? Colors.grey,
-                                      borderRadius: BorderRadius.circular(
-                                        height * (generalPadding ?? 0.02),
-                                      ),
-                                    ),
-                                    child: Padding(
-                                      padding: EdgeInsets.symmetric(
-                                        horizontal: width *
-                                            (generalPadding ?? 0.02) *
-                                            2,
-                                      ),
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.max,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          for (int j = 0; j < 2; j++)
-                                            Padding(
-                                              padding: EdgeInsets.only(
-                                                top: j == 0
-                                                    ? height *
-                                                        (generalPadding ?? 0.02)
-                                                    : 0,
-                                              ),
-                                              child: Text(
-                                                j == 0
-                                                    ? introPageModelData[index]
-                                                        .title
-                                                    : introPageModelData[index]
-                                                        .description,
-                                                style: j == 0
-                                                    ? Theme.of(context)
-                                                        .textTheme
-                                                        .displayLarge
-                                                    : Theme.of(context)
-                                                        .textTheme
-                                                        .bodyMedium,
-                                                overflow: TextOverflow.ellipsis,
-                                                maxLines: j == 0 ? 2 : 3,
-                                                textAlign: TextAlign.center,
-                                              ),
-                                            ),
-                                          index == introPageModelData.length - 1
-                                              ? GeneralButtonWidget(
-                                                  height: height,
-                                                  onPressed: () {
-                                                    isPushNamed
-                                                        ? Navigator.pushNamed(
-                                                            context,
-                                                            routeHomePageRoute!,
-                                                          )
-                                                        : Navigator.push(
-                                                            context,
-                                                            MaterialPageRoute(
-                                                              builder: (context) =>
-                                                                  routeHomePage!,
-                                                            ),
-                                                          );
-                                                  },
-                                                  text: getStartedButtonText ??
-                                                      "Get Started",
-                                                  generalPadding:
-                                                      (generalPadding ?? 0.02),
-                                                  color: buttonColor ??
-                                                      Colors.white,
-                                                )
-                                              : const SizedBox(),
-                                        ],
-                                      ),
-                                    ),
-                                  );
-                                },
-                              ),
-                            ),
-                    ),
-          ],
+                      ),
+            ],
+          ),
         );
       },
     );

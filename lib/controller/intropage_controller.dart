@@ -30,7 +30,7 @@ class IntroPageController {
   void skipLastPage() {
     ref.read(introPageIndex.notifier).update((state) => pageLength);
     pageController.animateToPage(
-      pageLength - 1,
+      pageLength,
       duration: Duration(milliseconds: durationTime ?? 500),
       curve: Curves.easeIn,
     );
